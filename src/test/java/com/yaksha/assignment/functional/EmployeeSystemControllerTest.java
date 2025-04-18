@@ -24,22 +24,26 @@ public class EmployeeSystemControllerTest {
 
 	@Test
 	public void testClassPathXmlContextLoadsEmployeeCorrectly() throws IOException {
-		// Load the context from the classpath-based XML configuration
-		ApplicationContext contextClasspath = new ClassPathXmlApplicationContext("applicationContext.xml");
+		try {
+			// Load the context from the classpath-based XML configuration
+			ApplicationContext contextClasspath = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-		// Retrieve the beans from the context
-		Employee employee = contextClasspath.getBean("employee1", Employee.class);
+			// Retrieve the beans from the context
+			Employee employee = contextClasspath.getBean("employee1", Employee.class);
 
-		// Assert that the employee bean is correctly instantiated
-		boolean employeeNotNull = employee != null;
+			// Assert that the employee bean is correctly instantiated
+			boolean employeeNotNull = employee != null;
 
-		// Assert that the 'id', 'name', and dependencies are set correctly
-		boolean employeeDetailsCorrect = "E123".equals(employee.getId()) && "John Doe".equals(employee.getName())
-				&& "IT Department".equals(employee.getDepartment().getName())
-				&& "1234 Elm Street".equals(employee.getAddress().getStreet());
+			// Assert that the 'id', 'name', and dependencies are set correctly
+			boolean employeeDetailsCorrect = "E123".equals(employee.getId()) && "John Doe".equals(employee.getName())
+					&& "IT Department".equals(employee.getDepartment().getName())
+					&& "1234 Elm Street".equals(employee.getAddress().getStreet());
 
-		// Use yakshaAssert to validate the test result
-		yakshaAssert(currentTest(), employeeNotNull && employeeDetailsCorrect, businessTestFile);
+			// Use yakshaAssert to validate the test result
+			yakshaAssert(currentTest(), employeeNotNull && employeeDetailsCorrect, businessTestFile);
+		} catch (Exception ex) {
+			yakshaAssert(currentTest(), false, businessTestFile);
+		}
 	}
 
 	@Test
